@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>技職教育法規導航｜中國科技大學規劃與設計學院</title>
-<meta name="description" content="《技術及職業教育法規選輯》（教育部，民國 115 年 6 月）全文檢索。收錄 162 部法規、2,367 條條文與點次，供全校教師查詢教師聘任、升等送審、招生、學雜費、產學合作、獎補助等法源。">
+<title>技職教育法規導航｜中國科技大學</title>
+<meta name="description" content="《技術及職業教育法規選輯》（教育部，民國 115 年 6 月）全文檢索。收錄 162 部法規、2,367 條條文與點次，供技專校院教師查詢教師聘任、升等送審、招生、學雜費、產學合作、獎補助等法源。">
 <style>
 :root{
   --bg:#f7f5f0; --card:#ffffff; --ink:#272521; --dim:#6b655c; --line:#e0dbd1;
@@ -121,6 +121,10 @@ mark{background:var(--mark);color:inherit;padding:0 1px;border-radius:2px}
   font-size:14px;line-height:1.6}
 .lawbtn:hover{border-color:var(--navy)}
 .lawbtn b{color:var(--navy);font-weight:700}
+.locate{background:#eef2ff;border:1px solid var(--navy);border-radius:9px;
+        padding:12px 14px;margin-bottom:14px;font-size:14px;line-height:1.75}
+.locate b{color:var(--navy)}
+.locate .m{display:block;font-size:12.5px;color:var(--dim);margin-top:5px}
 .lawbtn .m{display:block;font-size:12px;color:var(--dim);margin-top:2px}
 .lawhead{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--navy);
   border-radius:9px;padding:14px 16px;margin-bottom:14px}
@@ -202,7 +206,7 @@ footer{border-top:1px solid var(--line);margin-top:30px;padding:16px 0 40px;font
 <header>
   <div class="wrap">
     <h1>技職教育法規導航</h1>
-    <div class="sub">中國科技大學規劃與設計學院　｜　《技術及職業教育法規選輯》（教育部，民國 115 年 6 月）全文檢索　｜　供全校教師使用</div>
+    <div class="sub">中國科技大學　｜　《技術及職業教育法規選輯》（教育部，民國 115 年 6 月）全文檢索　｜　供技專校院教師使用</div>
     <nav class="tabs" role="tablist">
       <button id="t-cover" role="tab" aria-selected="true"  onclick="tab('cover')">封面</button>
       <button id="t-nav"   role="tab" aria-selected="false" onclick="tab('nav')">法規導航</button>
@@ -231,12 +235,12 @@ footer{border-top:1px solid var(--line);margin-top:30px;padding:16px 0 40px;font
       <div class="st"><div class="n">51.7</div><div class="k">萬字全文</div></div>
     </div>
     <button class="enter" onclick="tab('nav');document.getElementById('q').focus()">開始查詢　→</button>
-    <div class="foot">介面製作：中國科技大學規劃與設計學院<br>法規文字著作權屬教育部，本頁僅供校內教學與行政查詢之用</div>
+    <div class="foot">介面製作：中國科技大學<br>資料來源為教育部編印之《技術及職業教育法規選輯》（民國 115 年 6 月），本頁為非官方檢索介面，不作任何形式之販售</div>
   </div>
 
   <div class="coverlist">
     <div><b>這個網站做什麼</b>把 833 頁的紙本選輯變成可以搜尋的條文。打關鍵字就找得到條號與原文，不必再翻頁或下載 PDF。</div>
-    <div><b>誰會用到</b>全校教師。聘任、升等送審、授課鐘點、實習、產學、招生、學雜費減免、獎補助計畫，都在這一本裡。</div>
+    <div><b>誰會用到</b>技專校院教師與行政人員。聘任、升等送審、授課鐘點、實習、產學、招生、學雜費減免、獎補助計畫，都在這一本裡。</div>
     <div><b>怎麼開始</b>按上方「法規導航」，直接用白話打你要問的事，例如「兼任教師怎麼聘」、「教師產業研習」、「系所要增設」。</div>
     <div><b>讀整部法規</b>搜尋結果最上面會列出命中的法規，點進去就是該部法規從第一條到最後一條的全文，可以當電子版翻閱。</div>
   </div>
@@ -261,7 +265,7 @@ footer{border-top:1px solid var(--line);margin-top:30px;padding:16px 0 40px;font
 
     <div class="maincol">
       <div class="searchbox">
-        <input type="text" id="q" placeholder="用白話問也可以，例如：兼任教師怎麼聘、教師升等送審、系所增設、學雜費減免"
+        <input type="text" id="q" placeholder="打白話或條號都可以，例如：技職法第26條、兼任教師怎麼聘、教師升等送審、系所增設"
                oninput="render()" autocomplete="off">
         <button class="btn pri" onclick="render()">查詢</button>
       </div>
@@ -291,6 +295,10 @@ footer{border-top:1px solid var(--line);margin-top:30px;padding:16px 0 40px;font
   <h2>二、三十秒上手</h2>
   <p>按上方「法規導航」，在搜尋框用白話打出你要問的事。不需要先知道是哪一部法規，也不需要知道條號。例如打「兼任教師」，結果最上面會列出《專科以上學校兼任教師聘任辦法》，下面則是命中的條文。</p>
   <p>搜尋框下方有一排常見問題，按一下就會代入查詢，可以先從那裡看這個頁面查得到什麼。</p>
+  <p><b>已經知道條號的話，直接打法規加條號就會定位到那一條</b>，例如「技職法第26條」「私校法第62條」「業師辦法第3條」。
+  條號可用阿拉伯數字或國字，空格有無都可以，「第26條」「第 26 條」「第二十六條」是同一件事。
+  法規可用全名或常用簡稱（技職法、私校法、退場條例、總量標準、兼任辦法、業師辦法等）。
+  只打條號不指定法規，會列出各部法規中條號相同的條文，供比對。要點類請打「第三點」。</p>
 
   <h2>三、兩種讀法</h2>
   <h3>找答案：看條文卡片</h3>
@@ -320,12 +328,12 @@ footer{border-top:1px solid var(--line);margin-top:30px;padding:16px 0 40px;font
     <li><b>先確認版本。</b>本選輯是 115 年 6 月版。之後若有修正，本頁不會自動更新，請以外部連結的現行條文為準。遇到要寫進公文或計畫書的條號，一定要點外部連結核對一次。</li>
     <li><b>要點與辦法要分清。</b>辦法有法律授權，是法源；要點是行政規則，多用於補助申請與作業程序。寫法源依據時不要引要點。</li>
     <li><b>條號要寫完整。</b>引用時寫「某某辦法第幾條第幾項第幾款」，不要只寫條。本頁卡片的條號可直接複製。</li>
-    <li><b>校內規章不在這裡。</b>本校的教師評審辦法、課程委員會設置要點等校內規章，不是教育部法規，本頁查不到。</li>
+    <li><b>各校校內規章不在這裡。</b>各校自訂的教師評審辦法、課程委員會設置要點等校內規章，不是教育部法規，本頁查不到。</li>
     <li><b>附表要看原件。</b>選輯中的附表在 PDF 裡是表格，轉成文字後欄位對齊會跑掉。本頁會標示為附表，判讀數值請以外部連結或紙本為準。</li>
   </ol>
 
   <h2>七、查不到的東西</h2>
-  <p>本頁只有這本選輯收錄的 162 部。以下都查不到：教育部以外機關的法規（勞動部、內政部等）、本校校內規章、各校自訂的實施要點、個案函釋、選輯出版後新訂或修正的條文。這些請走各機關的法規查詢系統。</p>
+  <p>本頁只有這本選輯收錄的 162 部。以下都查不到：教育部以外機關的法規（勞動部、內政部等）、各校自訂的校內規章與實施要點、個案函釋、選輯出版後新訂或修正的條文。這些請走各機關的法規查詢系統。</p>
 </section>
 
 <!-- ====================================================== 資料來源與限制 -->
@@ -337,7 +345,7 @@ footer{border-top:1px solid var(--line);margin-top:30px;padding:16px 0 40px;font
     <tr><td>收錄範圍</td><td>壹、基本規範；貳、高等技職教育；參、中等技職教育，共 162 部法規</td></tr>
     <tr><td>切分結果</td><td>2,367 筆條文與點次，全文約 51.7 萬字</td></tr>
     <tr><td>法規代碼</td><td>86 部法規已比對全國法規資料庫代碼，並逐一核對法規名稱一致後才建立連結</td></tr>
-    <tr><td>介面製作</td><td>中國科技大學規劃與設計學院</td></tr>
+    <tr><td>介面製作</td><td>中國科技大學</td></tr>
   </table>
 
   <h2>處理方式</h2>
@@ -353,8 +361,8 @@ footer{border-top:1px solid var(--line);margin-top:30px;padding:16px 0 40px;font
     <li><b>沒有解釋，也沒有建議。</b>本頁不提供法規解釋、個案判斷或合規意見。條文怎麼適用，請依權責單位的函釋與學校行政程序。</li>
   </ol>
 
-  <h2>致謝與著作權</h2>
-  <p>法規文字著作權屬教育部，本頁僅就該部公開發行的選輯建立檢索介面，供校內教學與行政查詢之用，不作任何形式之販售或再發行。</p>
+  <h2>致謝與使用聲明</h2>
+  <p>本頁內容取自教育部編印之《技術及職業教育法規選輯》（民國 115 年 6 月）。依著作權法第 9 條第 1 項第 1 款及第 2 款，法律、命令及中央機關就其所作成之編輯物，不得為著作權之標的，故本選輯之法規文字不生著作權歸屬問題。本頁僅就該部公開發行之選輯建立檢索介面，供教學與行政查詢之用，不作任何形式之販售。謹向教育部技術及職業教育司致謝。</p>
 </section>
 
 </main>
@@ -374,7 +382,7 @@ footer{border-top:1px solid var(--line);margin-top:30px;padding:16px 0 40px;font
 </aside>
 
 <footer class="wrap">
-  資料來源：《技術及職業教育法規選輯》，教育部編印，民國 115 年 6 月。介面製作：中國科技大學規劃與設計學院。
+  資料來源：《技術及職業教育法規選輯》，教育部編印，民國 115 年 6 月。介面製作：中國科技大學。
   本頁為 115 年 6 月版之快照，正式引用請以全國法規資料庫或教育部主管法規共用系統之現行條文為準。
 </footer>
 
@@ -458,6 +466,11 @@ function terms(raw){
   for (var i=0;i<SYN.length;i++){
     if (new RegExp(SYN[i][0],'i').test(q)) SYN[i][1].split(' ').forEach(function(x){ add(x,3); });
   }
+  /* 簡稱展開：打「技職法」要能找到《技術及職業教育法》。ABBR 由 resolveAbbr() 在啟動時
+     比對 LAWS 後填入，只會展開成選輯真的收錄的法規全名。 */
+  for (var a=0;a<ABBR.length;a++){
+    if (q.indexOf(ABBR[a].a) > -1) add(ABBR[a].name, 6);
+  }
   toks.forEach(function(tok){
     if (!/[一-鿿]/.test(tok) || tok.length <= 2) return;
     for (var j=0;j+2<=tok.length;j++){
@@ -506,7 +519,7 @@ function pinned(q){
 /* 查某些題目時，條文本身不會告訴你的前提。行政加註，不是法規原文。 */
 var TIPS = [
   ['升等|送審|教師資格|代表作',
-   '<b>教師升等有兩層規定。</b>教育部這邊是《教育人員任用條例》與《專科以上學校教師資格審定辦法》所定的最低要件；實際送審還要依本校教師評審辦法與各級教評會的規定，校內規章不在本頁。'],
+   '<b>教師升等有兩層規定。</b>教育部這邊是《教育人員任用條例》與《專科以上學校教師資格審定辦法》所定的最低要件；實際送審還要依各校自訂的教師評審辦法與各級教評會規定，校內規章不在本頁。'],
   ['兼任|鐘點|超鐘點|授課時數',
    '<b>授課鐘點與超支鐘點的計算標準不在本選輯。</b>教育部法規只規範兼任教師的聘任程序與資格；鐘點數、折抵與行政職扣減屬學校自訂規章。'],
   ['要點|補助|經費|獎補助|申請',
@@ -613,6 +626,146 @@ function lawLink(l, flno){
   return {u: base + 'LawAll.aspx?pcode=' + encodeURIComponent(l.pcode), t:'全國法規資料庫　全部條文 ↗', ok:true};
 }
 
+
+/* ================= 條號定位查詢 =================
+   選輯資料中，條文的條號存為「第 26 條」（數字前後各一個空格），要點的點次存為「一、」。
+   老師與長官習慣打「技職法第26條」「第26條」「第二十六條」，字面與資料對不上：
+   舊版把整串當關鍵字做子字串比對，結果不是零筆，就是把一百多部法規的同號條文全撈出來。
+   以下先把查詢解析成「法規＋條號」直接定位，解析不出條號才走原本的關鍵字搜尋。 */
+
+/* 口語慣用的法規簡稱。右欄必須是選輯收錄的法規全名；啟動時由 resolveAbbr() 比對 LAWS，
+   對不到的直接略過，所以不會指向不存在的法規。要增補簡稱改這張表即可。 */
+var ABBR_SRC = [
+  ['技職法', '技術及職業教育法'],
+  ['技職教育法', '技術及職業教育法'],
+  ['技職法施行細則', '技術及職業教育法施行細則'],
+  ['技職教育法施行細則', '技術及職業教育法施行細則'],
+  ['私校法', '私立學校法'],
+  ['私校法施行細則', '私立學校法施行細則'],
+  ['退場條例', '私立高級中等以上學校退場條例'],
+  ['任用條例', '教育人員任用條例'],
+  ['待遇條例', '教師待遇條例'],
+  ['學位法', '學位授予法'],
+  ['總量標準', '專科以上學校總量發展規模與資源條件標準'],
+  ['資格審定辦法', '專科以上學校教師資格審定辦法'],
+  ['審定辦法', '專科以上學校教師資格審定辦法'],
+  ['送審須知', '專科以上學校教師資格送審作業須知'],
+  ['送審作業須知', '專科以上學校教師資格送審作業須知'],
+  ['兼任教師聘任辦法', '專科以上學校兼任教師聘任辦法'],
+  ['兼任辦法', '專科以上學校兼任教師聘任辦法'],
+  ['業師辦法', '專科以上學校遴聘業界專家協同教學實施辦法'],
+  ['業界專家辦法', '專科以上學校遴聘業界專家協同教學實施辦法'],
+  ['協同教學辦法', '專科以上學校遴聘業界專家協同教學實施辦法'],
+  ['產學合作辦法', '專科以上學校產學合作實施辦法'],
+  ['推廣教育辦法', '專科以上學校推廣教育實施辦法'],
+  ['遠距教學辦法', '專科以上學校遠距教學實施辦法'],
+  ['遠距辦法', '專科以上學校遠距教學實施辦法'],
+  ['學雜費收取辦法', '專科以上學校學雜費收取辦法'],
+  ['收費辦法', '專科以上學校向學生收取費用辦法'],
+  ['實習評量辦法', '專科以上學校實習課程績效評量辦法'],
+  ['產業研習辦法', '技專校院教師進行產業研習或研究實施辦法'],
+  ['實務經驗認定標準', '技專校院專業科目或技術科目之教師業界實務工作經驗認定標準'],
+  ['增設調整要點', '技專校院院所系科與學位學程增設及調整審核要點'],
+  ['系科增設要點', '技專校院院所系科與學位學程增設及調整審核要點'],
+  ['單招處理原則', '技專校院單獨招生處理原則'],
+  ['學術倫理處理原則', '專科以上學校學術倫理案件處理原則'],
+  ['受教權益注意事項', '專科以上學校維護學生受教權益應行注意事項'],
+  ['政策綱領', '技術及職業教育政策綱領'],
+  ['技職教育政策綱領', '技術及職業教育政策綱領'],
+  ['技職政策綱領', '技術及職業教育政策綱領'],
+  ['高中教育法', '高級中等教育法'],
+  ['高級中等教育法', '高級中等教育法']
+];
+var ABBR = [];
+function resolveAbbr(){
+  var byName = {}, i;
+  for (i = 0; i < LAWS.length; i++) byName[LAWS[i].name] = i;
+  ABBR = [];
+  for (i = 0; i < ABBR_SRC.length; i++){
+    var li = byName[ABBR_SRC[i][1]];
+    if (li != null) ABBR.push({a: ABBR_SRC[i][0], name: ABBR_SRC[i][1], li: li});
+  }
+  /* 長的簡稱先比對，「技職法施行細則」才不會被「技職法」先吃掉 */
+  ABBR.sort(function(x, y){ return y.a.length - x.a.length; });
+}
+
+var CNV = {'〇':0,'零':0,'一':1,'二':2,'兩':2,'三':3,'四':4,'五':5,'六':6,'七':7,'八':8,'九':9};
+function cn2num(t){
+  t = String(t || '');
+  if (/^[0-9]+$/.test(t)) return parseInt(t, 10);
+  var sec = 0, num = 0, ok = false;
+  for (var i = 0; i < t.length; i++){
+    var ch = t.charAt(i);
+    if (CNV[ch] != null){ num = CNV[ch]; ok = true; }
+    else if (ch === '十'){ sec += (num || 1) * 10; num = 0; ok = true; }
+    else if (ch === '百'){ sec += (num || 1) * 100; num = 0; ok = true; }
+    else if (ch === '千'){ sec += (num || 1) * 1000; num = 0; ok = true; }
+    else return null;
+  }
+  var v = sec + num;
+  return (ok && v > 0) ? v : null;
+}
+function num2cn(n){
+  var D = '零一二三四五六七八九';
+  if (!(n > 0)) return '';
+  if (n < 10) return D.charAt(n);
+  if (n === 10) return '十';
+  if (n < 20) return '十' + D.charAt(n % 10);
+  var t = Math.floor(n / 10), o = n % 10;
+  return D.charAt(t) + '十' + (o ? D.charAt(o) : '');
+}
+/* 把卡片的條號／點次轉成可比對的鍵：第 26 條→C26、第 6 條之 1→C6-1、十一、→P11 */
+function artKey(n){
+  var t = String(n || '');
+  var m = t.match(/^第\s*([0-9]+)\s*條(?:\s*之\s*([0-9]+))?$/);
+  if (m) return 'C' + m[1] + (m[2] ? '-' + m[2] : '');
+  var p = t.match(/^([一二三四五六七八九十百零〇]+)、$/);
+  if (p){ var v = cn2num(p[1]); if (v) return 'P' + v; }
+  return '';
+}
+/* 查詢字串 → {key, label, rest}；rest 是扣掉條號後剩下的字，用來認法規 */
+var NUMPAT = '[0-9]+|[一二三四五六七八九十百千零〇兩]+';
+function parseArt(raw){
+  var q = String(raw || '').replace(/[　\s]+/g, ' ').trim();
+  if (!q) return null;
+  var m, a, b;
+  /* 第X條之Y */
+  m = q.match(new RegExp('第\\s*(' + NUMPAT + ')\\s*條\\s*之\\s*(' + NUMPAT + ')'));
+  if (m){ a = cn2num(m[1]); b = cn2num(m[2]);
+    if (a && b) return {key:'C'+a+'-'+b, label:'第 '+a+' 條之 '+b, rest:q.replace(m[0],' ')}; }
+  /* 第X條 */
+  m = q.match(new RegExp('第\\s*(' + NUMPAT + ')\\s*條'));
+  if (m){ a = cn2num(m[1]);
+    if (a) return {key:'C'+a, label:'第 '+a+' 條', rest:q.replace(m[0],' ')}; }
+  /* 裸寫 26條（限阿拉伯數字，避免「退場條例」「第一條文」之類誤判） */
+  m = q.match(/(^|[^0-9第])([0-9]{1,3})\s*條(?![例文])/);
+  if (m){ a = parseInt(m[2], 10);
+    if (a) return {key:'C'+a, label:'第 '+a+' 條', rest:q.replace(m[0], m[1]+' ')}; }
+  /* 要點的點次：第X點 */
+  m = q.match(new RegExp('第\\s*(' + NUMPAT + ')\\s*點'));
+  if (m){ a = cn2num(m[1]);
+    if (a) return {key:'P'+a, label:'第 '+a+' 點（'+num2cn(a)+'、）', rest:q.replace(m[0],' ')}; }
+  return null;
+}
+/* 剩下的字 → 指到哪一部法規：先比全名（取最長者），再比簡稱 */
+function parseLawRef(rest){
+  var t = String(rest || '').replace(/[《》〈〉「」『』，,、。\.]/g, '').replace(/[　\s]+/g, '');
+  if (!t) return null;
+  var best = null, i;
+  for (i = 0; i < LAWS.length; i++){
+    var nm = LAWS[i].name;
+    if (nm.length >= 3 && t.indexOf(nm) > -1){
+      if (!best || nm.length > best.name.length) best = {li:i, name:nm, lit:nm, via:'法規全名'};
+    }
+  }
+  if (best) return best;
+  for (i = 0; i < ABBR.length; i++){
+    if (t.indexOf(ABBR[i].a) > -1)
+      return {li:ABBR[i].li, name:ABBR[i].name, lit:ABBR[i].a, via:'簡稱「'+ABBR[i].a+'」'};
+  }
+  return null;
+}
+
 function render(){
   var q = document.getElementById('q').value;
   var ts = terms(q);
@@ -650,8 +803,60 @@ function render(){
   countLaws().forEach(function(l){ okLaw[l.i] = 1; });
   var rows = CARDS.filter(function(c){ return okLaw[c.l]; });
 
+  /* ---- 條號定位：打「技職法第26條」「第26條」就直接帶到那一條 */
+  var AQ = parseArt(q);
+  if (AQ){
+    var LQ = parseLawRef(AQ.rest);
+    var all = CARDS.filter(function(c){ return artKey(c.n) === AQ.key; });
+    var exact = LQ ? all.filter(function(c){ return c.l === LQ.li; }) : [];
+    var rowsA, msg, sub = '', ignored = false;
+    if (exact.length){
+      rowsA = exact;
+      msg = '<b>' + esc(LQ.name) + '　' + esc(AQ.label) + '</b>';
+      sub = '以' + esc(LQ.via) + '認出法規，直接定位到該條。';
+    } else {
+      rowsA = all.filter(function(c){ return okLaw[c.l]; });
+      if (!rowsA.length && all.length){ rowsA = all; ignored = true; }
+      if (LQ){
+        msg = '<b>' + esc(LQ.name) + '</b> 沒有「' + esc(AQ.label) + '」';
+        sub = '該部法規查無此條號，以下列出其他法規中條號相同的條文，供比對。';
+      } else {
+        msg = '<b>' + esc(AQ.label) + '</b>（未指定是哪一部法規）';
+        sub = '請在條號前加上法規名稱或簡稱，例如「技職法第 26 條」，才能直接定位。';
+      }
+      if (ignored) sub += '（左側篩選已暫時略過）';
+    }
+    /* 扣掉法規名稱與條號後若還有關鍵字，用來排序與標示 */
+    var leftover = AQ.rest;
+    if (LQ && LQ.lit) leftover = leftover.split(LQ.lit).join(' ');
+    var ts2 = terms(leftover);
+    if (ts2.length && rowsA.length > 1){
+      rowsA = rowsA.map(function(c){
+        return {c:c, sc:score(c.t, ts2) + score(LAWS[c.l].name, ts2, 3) * 4};
+      }).sort(function(x, y){ return y.sc - x.sc; }).map(function(o){ return o.c; });
+    }
+    document.getElementById('laws').innerHTML =
+      '<div class="locate">已解讀為：' + msg
+      + '<span class="m">' + sub + '　條號查詢不分大小寫與空格，「第26條」「第 26 條」「第二十六條」皆可。</span></div>';
+    var nL = {};
+    rowsA.forEach(function(c){ nL[c.l] = 1; });
+    document.getElementById('count').innerHTML =
+      '共 <strong>' + rowsA.length + '</strong> 筆，分屬 <strong>'
+      + Object.keys(nL).length + '</strong> 部法規　｜　條號定位模式';
+    document.getElementById('tips').innerHTML = tipsFor(q);
+    document.getElementById('list').innerHTML = rowsA.length
+      ? rowsA.slice(0, 300).map(function(c){ return card(c, ts2); }).join('')
+      : '<div class="empty">本選輯的 ' + LAWS.length + ' 部法規中，沒有「' + esc(AQ.label)
+        + '」這一條。請確認條號，或改用關鍵字查詢。</div>';
+    return;
+  }
+
   if (ts.length){
     var pin = pinned(q);
+    /* 查詢直接點到某部法規（全名或簡稱）時，該部排最前，
+       母法才不會被條文較多的施行細則蓋過。 */
+    var LR0 = parseLawRef(q);
+    if (LR0 && pin[LR0.li] == null) pin[LR0.li] = 9000;
     var hits = rows.map(function(c){
       var l = LAWS[c.l];
       /* 條文開頭通常就點出這一條在管什麼，命中開頭比命中內文深處更有意義 */
@@ -798,6 +1003,7 @@ function buildToc(){
 }
 
 /* ------------------------------------------------------------------ 啟動 */
+resolveAbbr();
 buildSide();
 buildToc();
 render();
