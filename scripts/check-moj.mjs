@@ -22,7 +22,7 @@
  * 無外部套件，Node 20 以上可直接執行。需要 unzip 或 gunzip 處理封存檔。
  */
 
-import { readFile, writeFile, appendFile, mkdtemp, rm } from 'node:fs/promises';
+import { readFile, writeFile, appendFile, mkdtemp, rm, stat } from 'node:fs/promises';
 import { createWriteStream } from 'node:fs';
 import { Readable } from 'node:stream';
 import { pipeline } from 'node:stream/promises';
@@ -79,12 +79,31 @@ function officialToIso(s) {
 
 /* ---------------------------------------------------------------- 下載 */
 
-async function download(url, dest) {
+/* 官方封存檔體積大，用 Node 的 fetch 串流下載容易在中途被斷線
+   （undici 會丟出只有一個字的 terminated）。優先用 curl，它會自動重試
+   並續傳；沒有 curl 時才退回 fetch。 */
+async function download(url, dest, label) {
+  try {
+    await run('curl', [
+      '-sS', '-L', '--fail',
+      '--retry', '5',
+      '--retry-delay', '5',
+      '--retry-all-errors',
+      '--connect-timeout', '30',
+      '--max-time', '1800',
+      '-A', 'tvet-law moj check',
+      '-o', dest,
+      url,
+    ]);
+    return dest;
+  } catch (err) {
+    console.error(`${label}：curl 下載失敗（${err.message}），改用 fetch 重試一次`);
+  }
   const res = await fetch(url, {
     headers: { 'user-agent': 'tvet-law moj check', accept: '*/*' },
     redirect: 'follow',
   });
-  if (!res.ok) throw new Error(`下載 ${url} 失敗，HTTP ${res.status}`);
+  if (!res.ok) throw new Error(`${label} 下載失敗，HTTP ${res.status}（${url}）`);
   await pipeline(Readable.fromWeb(res.body), createWriteStream(dest));
   return dest;
 }
@@ -180,7 +199,13 @@ async function parseArchive(src, want, diag, batches) {
       if (!used) throw new Error(`MOJ_FIXTURE_DIR 中找不到 ${src.member}（含 .zip 與 .gz）`);
       diag.push(`${src.kind}：使用本機樣本 ${used}`);
     } else {
-      await download(src.url, file);
+      await download(src.url, file, src.kind);
+      const bytes = (await stat(file)).size;
+      diag.push(`${src.kind}：下載 ${(bytes / 1048576).toFixed(1)} MB`);
+      if (bytes < 1024) {
+        const peek = (await readFile(file, 'utf8')).slice(0, 500);
+        throw new Error(`${src.kind} 下載到的檔案只有 ${bytes} 位元組，內容開頭：\n${peek}`);
+      }
     }
     const opened = await openXmlStream(file, src.member);
     diag.push(`${src.kind}：${src.url} → ${opened.member}（${opened.format}）`);
@@ -430,6 +455,8 @@ async function main() {
 }
 
 main().catch((err) => {
-  console.error(`核對失敗：${err.message}`);
+  console.error(`核對失敗：${err && err.message ? err.message : err}`);
+  if (err && err.cause) console.error(`原因：${err.cause.message || err.cause}`);
+  if (err && err.stack) console.error(err.stack);
   process.exit(1);
 });
