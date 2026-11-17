@@ -126,12 +126,26 @@ function run(cmd, args) {
 
 /* ---------------------------------------------------------------- 解析 */
 
+/* 官方 XML 的實際結構（2026-11-17 第一次執行取得）：
+ *   <Laws UpdateDate="2026/11/6 上午 12:00:00">
+ *     <Law>
+ *       <LawLevel>法律</LawLevel>
+ *       <LawName>…</LawName>
+ *       <LawURL>https://law.moj.gov.tw/LawClass/LawAll.aspx?pcode=A0000001</LawURL>
+ *       <LawModifiedDate>19470101</LawModifiedDate>   西元八碼
+ *       <LawAbandonNote></LawAbandonNote>             非空白即為已廢止
+ *       <LawArticles><Article>…</Article></LawArticles>
+ *     </Law>
+ * 中文欄位名列為備援，萬一命令那一包的 schema 不同仍能解析。 */
+const RECORD_OPEN = '<Law>';
+const RECORD_CLOSE = '</Law>';
+
 const TAG = {
-  name: ['法規名稱'],
-  url: ['法規網址'],
-  changed: ['最新異動日期'],
-  abolished: ['廢止註記'],
-  nature: ['法規性質'],
+  name: ['LawName', '法規名稱'],
+  url: ['LawURL', '法規網址'],
+  changed: ['LawModifiedDate', '最新異動日期'],
+  abolished: ['LawAbandonNote', '廢止註記'],
+  nature: ['LawLevel', '法規性質'],
 };
 
 function pick(xml, keys) {
@@ -144,7 +158,7 @@ function pick(xml, keys) {
 
 /* 逐行讀取，累積 <法規> … </法規> 區塊後取出需要的欄位。
    全文不留在記憶體，只保留 pcode 對應的小物件。 */
-async function parseArchive(src, want, diag) {
+async function parseArchive(src, want, diag, batches) {
   const dir = await mkdtemp(path.join(tmpdir(), 'moj-'));
   const file = path.join(dir, 'archive.bin');
   try {
@@ -176,15 +190,20 @@ async function parseArchive(src, want, diag) {
     let buf = null;
     let records = 0;
     let head = '';
+    let batch = '';
 
     for await (const line of rl) {
       if (head.length < 1500) head += `${line}\n`;
+      if (!batch) {
+        const b = line.match(/<Laws[^>]*UpdateDate="([^"]+)"/);
+        if (b) batch = b[1];
+      }
       if (buf === null) {
-        if (line.includes('<法規>')) buf = [line];
+        if (line.includes(RECORD_OPEN)) buf = [line];
         continue;
       }
       buf.push(line);
-      if (!line.includes('</法規>')) continue;
+      if (!line.includes(RECORD_CLOSE)) continue;
 
       const xml = buf.join('\n');
       buf = null;
@@ -202,10 +221,14 @@ async function parseArchive(src, want, diag) {
       });
     }
 
-    diag.push(`${src.kind}：共讀到 ${records} 部法規，命中本選輯 ${found.size} 部`);
+    diag.push(
+      `${src.kind}：共讀到 ${records} 部法規，命中本選輯 ${found.size} 部` +
+        (batch ? `，官方批次日期 ${batch}` : ''),
+    );
+    if (batch) batches.push(`${src.kind} ${batch}`);
     if (records === 0) {
       throw new Error(
-        `${src.kind} 封存檔解析不到任何 <法規> 區塊，XML 結構可能與預期不同。開頭 1500 字如下，請據此修正 scripts/check-moj.mjs：\n${head}`,
+        `${src.kind} 封存檔解析不到任何 ${RECORD_OPEN} 區塊，XML 結構可能與預期不同。開頭 1500 字如下，請據此修正 scripts/check-moj.mjs：\n${head}`,
       );
     }
     return found;
@@ -234,10 +257,11 @@ async function main() {
   const want = new Set(withPcode.map((l) => l.pcode));
 
   const diag = [];
+  const batches = [];
   const official = new Map();
   for (const src of SOURCES) {
-    const found = await parseArchive(src, want, diag);
-    for (const [k, v] of found) if (!official.has(k)) official.set(k, { ...v, kind: src.kind });
+    const found = await parseArchive(src, want, diag, batches);
+    for (const [k, v] of found) if (!official.has(k)) official.set(k, { ...v, kind: v.nature || src.kind });
   }
 
   const stale = [];     // 官方最新異動日期晚於選輯所載
@@ -263,7 +287,7 @@ async function main() {
       kind: o.kind,
       abolished: o.abolished,
     };
-    if (/[^無否N]/.test(String(o.abolished || '').trim()) && String(o.abolished || '').trim() !== '') {
+    if (String(o.abolished || '').trim() !== '') {
       abolished.push(row);
       continue;
     }
@@ -283,6 +307,7 @@ async function main() {
   L.push('## 官方法規異動核對');
   L.push('');
   L.push(`核對日：${TODAY}　來源：全國法規資料庫公開資料（政府資料開放授權條款第 1 版）`);
+  if (batches.length) L.push(`　官方批次：${batches.join('　')}`);
   L.push('');
   L.push(`本選輯收錄 ${local.laws.length} 部法規，其中 ${withPcode.length} 部有全國法規資料庫代碼可供核對，另 ${local.laws.length - withPcode.length} 部為行政規則、要點或基準，官方資料庫查不到，不在核對範圍。`);
   L.push('');
