@@ -1,0 +1,90 @@
+name: 核對官方法規異動
+
+# 檢查每月執行，例行回報只在 1、7 月。
+#
+# 為什麼不把 cron 直接設成半年一次：GitHub 在公開 repo 連續 60 天沒有
+# repository 活動時會自動停用排程工作流程，且不發通知。半年（180 天）的
+# cron 會在觸發前被停用。改為每月執行，由腳本以 REPORT_MONTHS 決定何時
+# 發例行回報；法規一旦修正也能當月就知道，不必等到下一個回報月份。
+
+on:
+  schedule:
+    # 每月 6 日 03:23 UTC，台北時間 11:23。與 arch-design-law 的排程錯開。
+    - cron: '23 3 6 * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: moj-check
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    env:
+      REPORT_MONTHS: '1,7'
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: 核對全國法規資料庫
+        id: check
+        run: node scripts/check-moj.mjs
+
+      - name: 寫入執行摘要
+        if: always()
+        run: cat moj-report.md >> "$GITHUB_STEP_SUMMARY" || true
+
+      - name: 有異動就開 issue
+        if: steps.check.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TITLE: 官方法規異動（${{ steps.check.outputs.checked_date }}：修正 ${{ steps.check.outputs.n_stale }} 部、廢止 ${{ steps.check.outputs.n_abolished }} 部）
+        run: |
+          set -euo pipefail
+          existing=$(gh issue list --state open --search "官方法規異動 in:title" \
+            --json number,title --jq '.[0].number // empty')
+          if [ -n "$existing" ]; then
+            echo "已有未結的異動 issue #$existing，補上本次結果"
+            gh issue comment "$existing" --body-file moj-report.md
+          else
+            gh issue create --title "$TITLE" --body-file moj-report.md
+          fi
+
+      # 例行回報月份即使毫無異動也留一筆紀錄，集中在一個已關閉的 issue 裡。
+      - name: 例行回報月份留下無異動紀錄
+        if: steps.check.outputs.routine == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          LOG_TITLE: 官方法規異動核對紀錄
+        run: |
+          set -euo pipefail
+          num=$(gh issue list --state all --search "$LOG_TITLE in:title" \
+            --json number,title --jq "map(select(.title == \"$LOG_TITLE\")) | .[0].number // empty")
+          if [ -z "$num" ]; then
+            url=$(gh issue create --title "$LOG_TITLE" \
+              --body '本 issue 收錄每次例行核對的結果，由排程自動留言。保持關閉狀態，有異動時會另開 issue。')
+            num=${url##*/}
+            gh issue close "$num"
+          fi
+          gh issue comment "$num" --body-file moj-report.md
+
+      # 無論有無異動，核對結果都要寫回頁面，教師看到的警示才是最新的。
+      - name: 核對結果寫回頁面
+        if: steps.check.outputs.page_bumped == 'true' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
+        run: |
+          set -euo pipefail
+          git config user.name  'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html
+          git commit -m "官方異動核對更新為 ${{ steps.check.outputs.checked_date }}
+
+          官方已修正 ${{ steps.check.outputs.n_stale }} 部、廢止 ${{ steps.check.outputs.n_abolished }} 部。
+          只更新 meta.mojCheck，條文內容未變更。"
+          git push
